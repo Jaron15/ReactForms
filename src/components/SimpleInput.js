@@ -1,14 +1,30 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 
 const SimpleInput = (props) => {
  
   const [enteredName, setEnteredName] = useState('');
   const [enteredNameTouched, setEnteredNameTouched] = useState(false);
 
+
   const enteredNameIsValid = enteredName.trim() !== '';
 // this creates a const to check against to see if the name is valid only when a user has actually entered something with 'touched' state
 // and whether its valid (or not empty in this case) with the const defined in the line above 
 const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
+
+// this is an alternative to creating a formIsValid 'state' to refer to 
+//since its a simple boolean value you dont need a whole state to track it
+//the same thing is being done with the enteredNameIsValid but its using the enteredNameState & touched state to set those booleans, this way you use one state to derive multiple 'pseudo states' from with less code  
+let formIsValid = false;
+if (enteredNameIsValid) {
+  formIsValid = true;
+} 
+
+  if (enteredNameIsValid) {
+    setFormIsValid(true)
+  } else {
+    setFormIsValid(false)
+  }
+
 
 
   // updates enteredName state with every change using onChange 
@@ -58,7 +74,7 @@ const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
       </div>
       {nameInputIsInvalid && <p className='error-text'>Name must not be empty</p>}
       <div className="form-actions">
-        <button>Submit</button>
+        <button disabled={!formIsValid}>Submit</button>
       </div>
     </form>
   );
