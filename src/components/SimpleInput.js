@@ -1,30 +1,26 @@
-import {useEffect, useRef, useState} from 'react';
+import {useState} from 'react';
 
 const SimpleInput = (props) => {
-  const nameInputRef = useRef();
+ 
   const [enteredName, setEnteredName] = useState('');
-  const [enteredNameIsValid, setEnteredNameIsValid] = useState(false);
   const [enteredNameTouched, setEnteredNameTouched] = useState(false);
 
-  useEffect(() => {
-    if (enteredNameIsValid) {
-      console.log('Name Is Valid!');
-    }
-  }, [enteredNameIsValid])
+  const enteredNameIsValid = enteredName.trim() !== '';
+// this creates a const to check against to see if the name is valid only when a user has actually entered something with 'touched' state
+// and whether its valid (or not empty in this case) with the const defined in the line above 
+const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
 
 
   // updates enteredName state with every change using onChange 
   const nameInputChangeHandler = (event) => {
     setEnteredName(event.target.value);
+//this if doesnt use enteredName state like the others because it is being updated in the line above
+//making it scheduled to be changed but not quite changed yet while in this function so you would be referencing an older state
+    
   }
 
   const nameInputBlurHandler = (event) => {
     setEnteredNameTouched(true);
-
-    if (enteredName.trim() === '') {
-      setEnteredNameIsValid(false);
-      return;
-    }
 
   }
 
@@ -34,33 +30,26 @@ const SimpleInput = (props) => {
 // updates the 'touched' state to identify user input/submission
     setEnteredNameTouched(true);
 
-    if (enteredName.trim() === '') {
-      setEnteredNameIsValid(false);
+  // breaks out of function if the input is invalid
+    if (!enteredNameIsValid) {
       return;
     }
 
-    setEnteredNameIsValid(true)
     // this is the updated state enteredName
     console.log(enteredName);
-    const enteredValue = nameInputRef.current.value;
-    // this is what is in the input that has the nameInputRef at the time of submission
-    console.log(enteredValue);
 
-    
     setEnteredName('');
+//you have to set touched back to false in order to not hit the nameInputIsInvalid requirements
+//bc you setEnteredName to '' the app needs to know that thats not what the user is inputting rather just resetting the value    
+    setEnteredNameTouched(false);
   }
-
-// this creates a const to check against to see if the name is valid only when a user has actually entered something 
-// bc enteredNameIsValid is set to false by default, you need to make sure that the validity youre checking
-// is actually user input and not just the default state. This allows us the isValid check as a dependency as well we do that with the 'touched' state
-  const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
 
   const nameInputClasses = nameInputIsInvalid ? 'form-control invalid' : 'form-control';
   return (
     <form onSubmit={formSubmissionHandler}>
       <div className={nameInputClasses}>
         <label htmlFor='name'>Your Name</label>
-        <input ref={nameInputRef}
+        <input 
           type='text'
           id='name'
           onChange={nameInputChangeHandler}
