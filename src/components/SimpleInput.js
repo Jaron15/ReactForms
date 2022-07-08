@@ -20,9 +20,9 @@ if (enteredNameIsValid) {
 } 
 
   if (enteredNameIsValid) {
-    setFormIsValid(true)
+    formIsValid = true
   } else {
-    setFormIsValid(false)
+    formIsValid = false
   }
 
 
