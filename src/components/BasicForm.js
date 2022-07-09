@@ -1,6 +1,9 @@
 import {useState} from 'react';
 import useInputs from '../hooks/useInputs';
 
+const isNotEmpty = value => value.trim() !== '';
+const isEmail = value => value.includes('@')
+
 const BasicForm = (props) => {
   const {
     value: enteredFirstName, 
@@ -9,7 +12,7 @@ const BasicForm = (props) => {
     inputIsValid: firstNameIsValid,
     hasError: firstNameIsNotValid,
     reset: resetFn
-  } = useInputs(value => value.trim() !== '');
+  } = useInputs(isNotEmpty);
   const {
     value: enteredLastName, 
     inputChangeHandler: lNHandler,
@@ -17,7 +20,7 @@ const BasicForm = (props) => {
     inputIsValid: lastNameIsValid,
     hasError: lastNameIsNotValid,
     reset: resetLn
-  } = useInputs(value => value.trim() !== '');
+  } = useInputs(isNotEmpty);
   const {
     value: enteredEmail, 
     inputChangeHandler: emailChangeHandler,
@@ -25,7 +28,7 @@ const BasicForm = (props) => {
     inputIsValid: emailIsValid,
     hasError: emailIsNotValid,
     reset: resetEmail
-  } = useInputs(value => value.includes('@'))
+  } = useInputs(isEmail)
   // const [enteredFirstName, setEnteredFirstName] = useState('');
   // const [firstNameTouched, setFirstNameTouched] = useState(false);
   // const [enteredLastName, setEnteredLastName] = useState('');
