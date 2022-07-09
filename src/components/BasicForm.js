@@ -81,7 +81,7 @@ const EmailInputClasses = emailIsNotValid ? 'form-control invalid' : 'form-contr
           onBlur={fBHandler}
           value={enteredFirstName}
           />
-          {firstNameIsNotValid && <p>Please enter a first name</p>}
+          {firstNameIsNotValid && <p className='error-text'>Please enter a first name</p>}
         </div>
         <div className={LNInputClasses}>
           <label htmlFor='name'>Last Name</label>
@@ -91,7 +91,7 @@ const EmailInputClasses = emailIsNotValid ? 'form-control invalid' : 'form-contr
           onChange={lNHandler} 
           onBlur={lBHandler}
           value={enteredLastName} />
-          {lastNameIsNotValid && <p>Please enter a last name</p>}
+          {lastNameIsNotValid && <p className='error-text'>Please enter a last name</p>}
         </div>
       </div>
       <div className={EmailInputClasses}>
@@ -102,7 +102,7 @@ const EmailInputClasses = emailIsNotValid ? 'form-control invalid' : 'form-contr
           onChange={emailChangeHandler} 
           onBlur={emailBlurHandler}
           value={enteredEmail} />
-           {emailIsNotValid && <p>Please enter a valid email</p>}
+           {emailIsNotValid && <p className='error-text'>Please enter a valid email</p>}
       </div>
       <div className='form-actions'>
         <button disabled={!formIsValid}>Submit</button>
