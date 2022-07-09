@@ -1,21 +1,30 @@
 import {useState} from 'react';
+import useInputs from '../hooks/useInputs';
 
 const BasicForm = (props) => {
-  const [enteredFirstName, setEnteredFirstName] = useState('');
-  const [firstNameTouched, setFirstNameTouched] = useState(false);
+  const {
+    value: enteredFirstName, 
+    inputChangeHandler: fNHandler,
+    inputBlurHandler: fBHandler,
+    inputIsValid: firstNameIsValid,
+    hasError: firstNameIsNotValid,
+    reset
+  } = useInputs(value => value.trim() !== '')
+  // const [enteredFirstName, setEnteredFirstName] = useState('');
+  // const [firstNameTouched, setFirstNameTouched] = useState(false);
   // const [enteredLastName, setEnteredLastName] = useState('');
   // const [enteredEmail, setEnteredEmail] = useState('');
 
-  const firstNameIsValid = enteredFirstName !== '';
-  const firstNameIsNotValid = !firstNameIsValid && firstNameTouched;
+  // const firstNameIsValid = enteredFirstName.trim() !== '';
+  // const firstNameIsNotValid = !firstNameIsValid && firstNameTouched;
 
-  const FNChangeHandler = (event) => {
-    setEnteredFirstName(event.target.value);
-  }
+  // const FNChangeHandler = (event) => {
+  //   setEnteredFirstName(event.target.value);
+  // }
 
-  const FNBlurHandler = () => {
-    setFirstNameTouched(true)
-  }
+  // const FNBlurHandler = () => {
+  //   setFirstNameTouched(true)
+  // }
 
   const formSubmitHandler = (event) => {
     event.preventDefault();
@@ -25,8 +34,7 @@ const BasicForm = (props) => {
     }
 
     console.log(enteredFirstName);
-    setEnteredFirstName('');
-    setFirstNameTouched(false);
+    reset();
 
   }
 
@@ -45,8 +53,8 @@ const FNInputClasses = firstNameIsNotValid ? 'form-control invalid' : 'form-cont
           <input 
           type='text' 
           id='name' 
-          onChange={FNChangeHandler} 
-          onBlur={FNBlurHandler}
+          onChange={fNHandler} 
+          onBlur={fBHandler}
           value={enteredFirstName}
           />
           {firstNameIsNotValid && <p>Please enter a first name</p>}
